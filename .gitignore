@@ -1,0 +1,5 @@
+**/.DS_Store
+Pipfile.lock
+.python-version
+**/*.log
+**/test_examples.py
