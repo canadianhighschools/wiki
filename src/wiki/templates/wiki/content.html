@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        html,
+        body {
+            background-color: rgb(39, 40, 44);
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .callout {
+            display: flex;
+            border-radius: 10px;
+            width: 40%;
+            border: 1px solid #bb8b08;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .callout-style-warning {
+            background-color: #68460e;
+        }
+
+        .callout-icon {
+            font-size: 20px;
+            color: #ffbc03;
+            margin-bottom: -10px;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+
+        .callout-icon-wrapper {
+            width: 40px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .callout-content-wrapper {
+            /* background-color: blue; */
+            width: 100%;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-top: 3px;
+            padding-bottom: 3px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>hi</h1>
+    {{ page_content|safe }}
+</body>
+
+</html>
