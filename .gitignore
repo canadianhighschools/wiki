@@ -3,3 +3,7 @@ Pipfile.lock
 .python-version
 **/*.log
 **/test_examples.py
+.vscode
+*.env
+**/__pycache__
+env/

@@ -1,0 +1,73 @@
+###########
+# BUILDER #
+###########
+
+# pull official base image
+FROM python:3.11.4-slim-buster as builder
+
+# set work directory
+WORKDIR /usr/src/project
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc
+
+# lint
+RUN pip install --upgrade pip
+# RUN pip install flake8==6.0.0
+COPY . /usr/src/project/
+# RUN flake8 --ignore=E501,F401 .
+
+# install python dependencies
+COPY ./requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/project/wheels -r requirements.txt
+
+
+#########
+# FINAL #
+#########
+
+# pull official base image
+FROM python:3.11.4-slim-buster
+
+# create directory for the project user
+RUN mkdir -p /home/project
+
+# create the project user
+RUN addgroup --system project && adduser --system --group project
+
+# create the appropriate directories
+ENV HOME=/home/project
+ENV PROJECT_HOME=/home/project/web
+RUN mkdir $PROJECT_HOME
+RUN mkdir $PROJECT_HOME/staticfiles
+RUN mkdir $PROJECT_HOME/mediafiles
+WORKDIR $PROJECT_HOME
+
+# install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends netcat
+COPY --from=builder /usr/src/project/wheels /wheels
+COPY --from=builder /usr/src/project/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache /wheels/*
+
+# copy entrypoint.prod.sh
+COPY ./entrypoint.prod.sh .
+RUN sed -i 's/\r$//g' $PROJECT_HOME/entrypoint.prod.sh
+RUN chmod +x $PROJECT_HOME/entrypoint.prod.sh
+
+# copy project
+COPY . $PROJECT_HOME
+
+# chown all the files to the project user
+RUN chown -R project:project $PROJECT_HOME
+
+# change to the project user
+USER project
+
+# run entrypoint.prod.sh
+ENTRYPOINT ["/home/project/web/entrypoint.prod.sh"]

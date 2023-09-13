@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: db_deploy_prod
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./env/prod/db.env
+
+  web:
+    build: 
+      context: ./project
+      dockerfile: Dockerfile.prod
+    container_name: web_deploy_prod
+    command: gunicorn settings.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/project/web/staticfiles
+      - media_volume:/home/project/web/mediafiles
+    expose:
+      - 8000
+    env_file:
+      - ./env/prod/project.env
+    depends_on:
+      - db
+
+  nginx:
+    build: ./nginx
+    container_name: nginx_deploy_prod
+    volumes:
+      - static_volume:/home/project/web/staticfiles
+      - media_volume:/home/project/web/mediafiles
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: db_deploy_prod
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./env/staging/db.env
+
+  web:
+    build: 
+      context: ./project
+      dockerfile: Dockerfile.prod
+    container_name: web_deploy_prod
+    command: gunicorn settings.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/project/web/staticfiles
+      - media_volume:/home/project/web/mediafiles
+    expose:
+      - 8000
+    env_file:
+      - ./env/staging/project.env
+    depends_on:
+      - db
+
+  nginx-proxy:
+    container_name: nginx-proxy
+    build: ./nginx
+    restart: always
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - static_volume:/home/project/web/staticfiles
+      - media_volume:/home/project/web/mediafiles
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    depends_on:
+      - web
+
+  acme-companion:
+    image: nginxproxy/acme-companion
+    env_file:
+      - ./env/staging/acme-companion.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - acme:/etc/acme.sh
+    depends_on:
+      - nginx-proxy
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  certs:
+  html:
+  vhost:
+  acme:
