@@ -15,11 +15,11 @@ from markdown_it.renderer import RendererProtocol
 from markdown_it.token import Token
 from markdown_it.utils import EnvType, OptionsDict
 
-from .common import get_tag_data
+from ..common import get_tag_data
 
 """
 example usage:
-:::callout{template="warning"}
+:::callout[template="warning"]
 This is.. a warning!
 :::
 
@@ -35,13 +35,15 @@ def render(
     return self.renderToken(tokens, idx, _options, env)
 
 
-def callout_plugin(
+def execute(
     md: MarkdownIt,
     name: str = 'callout',
     marker: str = ":",
-    templates: dict = {'warning': '⚠️'}
+    templates: dict = {'warning': '⚠️'},
+    default_attributes: dict = {'template': 'warning', 'hidden': False}
 ) -> None:
 
+    print ('trigger', name)
     min_markers = 3
     marker_char = marker[0]
     marker_len = len(marker)
@@ -79,7 +81,7 @@ def callout_plugin(
 
         tag = state.src[pos:maximum].strip()
 
-        tag_data = get_tag_data(tag)
+        tag_data = get_tag_data(tag, default_attributes)
         if (not tag_data): return False
         attributes = tag_data['attributes']
         

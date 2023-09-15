@@ -11,6 +11,7 @@ bleach = "*"
 django-rest-framework = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
+djangorestframework = "*"
 
 [dev-packages]
 

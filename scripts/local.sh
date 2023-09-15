@@ -1,6 +1,6 @@
 #!/bin/bash
 set -o allexport
-source ./env/.local.env
+source ./env/local.env
 set +o allexport
 
 # python3 project/manage.py flush --no-input

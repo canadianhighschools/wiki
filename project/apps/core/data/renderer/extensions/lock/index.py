@@ -15,8 +15,16 @@ from markdown_it.renderer import RendererProtocol
 from markdown_it.token import Token
 from markdown_it.utils import EnvType, OptionsDict
 
-from .common import get_tag_data
+from ..common import get_tag_data
 
+"""
+example usage:
+:::lock[grades="9,12" districts="peel"]
+This message is only avaliable to those who have set the above filter targets.
+They will still recieve - as an example: "89 words hidden based on your filters" - at the bottom.
+:::
+
+"""
 
 def render(
     self: RendererProtocol,
@@ -28,9 +36,10 @@ def render(
     return self.renderToken(tokens, idx, _options, env)
 
 
-def lock_plugin(
+def execute(
     md: MarkdownIt,
     marker: str = ":",
+    default_attributes: dict = {}
 ) -> None:
 
     min_markers = 3
@@ -70,7 +79,7 @@ def lock_plugin(
 
         tag = state.src[pos:maximum].strip()
 
-        tag_data = get_tag_data(tag)
+        tag_data = get_tag_data(tag, default_attributes)
         if (not tag_data): return False
         attributes = tag_data['attributes']
         

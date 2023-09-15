@@ -3,7 +3,7 @@ version: '3.8'
 services:
   db:
     image: postgres:15
-    container_name: db_deploy_prod
+    container_name: db_deploy_staging
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
@@ -13,7 +13,7 @@ services:
     build: 
       context: ./project
       dockerfile: Dockerfile.prod
-    container_name: web_deploy_prod
+    container_name: web_deploy_staging
     command: gunicorn settings.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/project/web/staticfiles

@@ -1,20 +1,19 @@
 import re
 from .models import Category, Page, Revision, TextContent
 
-from typing import Optional
+from typing import Optional, List
 
 
-def page_from_path(path: str) -> Optional[Page]:
+def page_from_path(slugs: List[str]) -> Optional[Page]:
     """
     get-started/fundamentals/changing-a-course
+    ['get-started', 'fundamentals', 'changing-a-course']
 
     moves to get-started (category)
         moves to fundamentals (category)
             returns changing-a-course (page)
     """
-    if (path == ""): return 
-    
-    slugs = re.split(r'/', path.strip('/'))
+    if (not slugs or len(slugs) == 0): return 
 
     # iterate to the direct parent of the page, we dont grab the page directly because
     # iterating categories is pretty minimal in terms of cost and this way we can have
@@ -32,12 +31,48 @@ def page_from_path(path: str) -> Optional[Page]:
         return 
 
 
+def categories_from_page(page: Page) -> List[Category]:
+    """
+    recurses and returns list of parents from page
+    """
+    if (not page): return 
+    parents = []
+
+    current = page.parent
+    while current:
+        parents.append(current)
+        current = current.parent
+
+    return parents
+
+    
+def fetch_latest_revision(query_set) -> Optional[Revision]:
+    revision_list = list(query_set)
+
+    # try to get latest one
+    if (len(revision_list) > 0):
+        latest_rev = revision_list[0]
+        current = latest_rev
+
+        if (current.rollback):
+            print ("Is Rollback")
+
+            # iterate
+            while current.rollback:
+                current = current.rollback # set to latest
+
+        return current
+
+    return False
+
 
 def revision_from_page(page: Page) -> Optional[Revision]:
-    if (not page or page.order == -1): return 
+    if (not page): return 
 
     try:
-        return page.revisions.get(order=page.order) # fetch revision by current order
+        query_set = page.revisions.order_by("-order")
+        return fetch_latest_revision(query_set)
+
     except Revision.DoesNotExist:
         return 
 
@@ -59,22 +94,32 @@ def text_from_content(content: TextContent) -> Optional[str]:
         return content.text
     
 
+def text_from_page(page) -> Optional[str]:
+    revision = revision_from_page(page)
+    if (not revision): return 
+
+    content = content_from_revision(revision)
+    if (not content): return 
+
+    return text_from_content(content)
+
 
 def text_from_path(path) -> Optional[str]:
     # the ultimate stack
     page = page_from_path(path)
     if (not page): return 
 
-    print ('page', page)
-
+    # TODO rev was having some problems being fetched from page if manually created
+    # something something order something?
     revision = revision_from_page(page)
     if (not revision): return 
-
-    print ('rev', revision)
 
     content = content_from_revision(revision)
     if (not content): return 
 
-    print ('content', content)
-
     return text_from_content(content)
+
+
+def path_from_string(string: str, prefixes=1) -> str:
+    # first letter is a root / generally
+    return string[1:].split('/')[prefixes:]

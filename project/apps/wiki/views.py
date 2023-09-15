@@ -2,32 +2,37 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.template import loader
 
-from apps.core.data.fetch import text_from_path
+from apps.core.data.fetch import page_from_path, text_from_page, categories_from_page, path_from_string
 
-from .parser.run import render_to_html
+from apps.core.data.renderer.run import render_to_html, markdown_builder
 
 import re
 
 prefix = '/wiki'
 
 
+md = markdown_builder()
+
 def index(request):
     return HttpResponse("Hello, world. You're at the wiki index.")
 
 
 def content(request: HttpRequest):
-    c = '/'.join(request.path.split('/')[2:])[0:-1]
-    print (c)
-    text = text_from_path(c)
-    if (text):
-        page_content = render_to_html(text)
+    path = path_from_string(request.path, prefixes=1)
+    page = page_from_path(path)
+    text = text_from_page(page)
 
-        context = { "page_content": page_content }
+    if (text):
+        rendered_content = render_to_html(md, text)
+
+        context = {
+            "page_title": page.title, 
+            "rendered_content": rendered_content, 
+            "base_dir": "wiki/",
+            "page_path": '/'.join(path)
+            
+            }
         template = loader.get_template("wiki/content.html")
 
         return HttpResponse(template.render(context, request))
     return HttpResponse('404')
-
-    # parent_c = Category.objects.get(cat_slug=)
-
-    # return HttpResponse(' '.join(groups))

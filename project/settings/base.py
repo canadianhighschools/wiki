@@ -11,7 +11,8 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1').split(',')
-CSRF_TRUSTED_ORIGINS = os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
+if ('DJANGO_CSRF_TRUSTED_ORIGINS' in os.environ.keys()):
+    CSRF_TRUSTED_ORIGINS = os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 INSTALLED_APPS = [
@@ -27,6 +28,12 @@ INSTALLED_APPS = [
     'apps.edit',
     'apps.api',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -120,3 +127,64 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Markdown to HTML Renderer
+# required by core.data.renderer
+
+RENDERER_WHITELISTED_TAGS = [
+    'p',
+    'a',
+    'abbr',
+    'acronym',
+    'address',
+    'article',
+    'aside',
+    'base',
+    'big',
+    'b',
+    'blockquote',
+    'code',
+    'cite',
+    'caption',
+    'col',
+    'define',
+    'noembed',
+    'nobr',
+    'pre',
+    'span',
+    'svg',
+    'table',
+    'tbody',
+    'td',
+    'template',
+    'tfoot',
+    'th',
+    'tr',
+    'var',
+    'em',
+    'i',
+    'li',
+    'ol',
+    'strong',
+    'ul',
+    'div',
+]
+
+
+RENDERER_WHITELISTED_ATTRIBUTES = {
+    '*': ['class', 'style'],
+    'a': ['href', 'title', 'rel'],
+    'abbr': ['title'],
+    'acronym': ['title'],
+    'base': ['href']
+}
+
+RENDERER_WHITELISTED_PROTOCOLS = [
+    'https'
+]
+
+RENDERER_EXTENSIONS = [
+    'callout',
+    'lock'
+]

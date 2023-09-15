@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -46,7 +47,6 @@ class Page(models.Model, AbstractDatedModel):
     title = models.CharField("title", max_length=255)
     description = models.CharField(max_length=32767, default="", blank=True, verbose_name="Description")
     slug = models.CharField(max_length=255, verbose_name="Slug", validators=[validate_slug])
-    order = models.IntegerField(default=-1, auto_created=True, editable=False, verbose_name="Current Revision")
     parent = models.OneToOneField('Category', on_delete=models.PROTECT, verbose_name="Category")
 
     class Meta:
@@ -61,9 +61,15 @@ class Page(models.Model, AbstractDatedModel):
 
 # A page revision / points to the sections
 class Revision(models.Model, AbstractDatedModel):
-    order = models.IntegerField(verbose_name="Order #", default=0, auto_created=True, editable=False)
-    rollback = models.BooleanField(verbose_name="Is Rollback?", default=False, auto_created=True, editable=False)
-    content = models.OneToOneField('TextContent', on_delete=models.PROTECT, verbose_name="Text Content")
+    order = models.IntegerField(verbose_name="Order #", default=0)
+    # could potentially be a rollback and not a content revision
+
+    # another many to one key because multiple revisions could rollback to one revision
+    # but one revision will never rollback to many
+    rollback = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='rollbacks')
+    
+    # one content per revision, unique
+    content = models.OneToOneField('TextContent', on_delete=models.PROTECT, verbose_name="Text Content", null=True, blank=True)
     page = models.ForeignKey('Page', on_delete=models.PROTECT, verbose_name="Page", related_name="revisions")
 
     def __str__(self):
@@ -73,6 +79,17 @@ class Revision(models.Model, AbstractDatedModel):
         db_table = 'Revision'
         verbose_name = 'Revision'
         verbose_name_plural = 'Revisions'
+
+        # either rollback or content must not be null
+        # taken from https://stackoverflow.com/questions/53085645/django-one-of-2-fields-must-not-be-null
+        constraints = [
+            models.CheckConstraint(
+                check=Q(rollback__isnull=False) | Q(content__isnull=False),
+                name='not_both_null'
+            )
+            # TODO add constraint to make order unique among models?
+        ]
+        
 
 
 
