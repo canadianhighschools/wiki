@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>content</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/content.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}" media="screen">
+
+    <!-- <link rel="author" href="humans.txt"> -->
+</head>
+
+<body>
+    {% include 'nav.html' %}
+
+    
+    <div class="doc__wrapper">
+        {% include "wiki/toc.html" with sections=sections page_title=page_title %}
+
+        <article class="doc__page">
+            <div class="doc__content">
+                <h1 class="doc__title">{{ page_title }}</h1>
+                {{ content|safe }}
+            </div>
+        </article>
+    </div>
+
+
+    {% include 'footer.html' %}
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> -->
+    <!-- <script>hljs.initHighlightingOnLoad();</script> -->
+    <script src="{% static 'js/toc.js' %}"></script>
+</body>
+
+</html>

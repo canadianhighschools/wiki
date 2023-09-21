@@ -47,10 +47,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'settings.urls'
 
+TEMPLATES_ROOT = BASE_DIR / 'templates'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_ROOT],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,6 +121,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'web/static'
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
@@ -127,64 +132,3 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# Markdown to HTML Renderer
-# required by core.data.renderer
-
-RENDERER_WHITELISTED_TAGS = [
-    'p',
-    'a',
-    'abbr',
-    'acronym',
-    'address',
-    'article',
-    'aside',
-    'base',
-    'big',
-    'b',
-    'blockquote',
-    'code',
-    'cite',
-    'caption',
-    'col',
-    'define',
-    'noembed',
-    'nobr',
-    'pre',
-    'span',
-    'svg',
-    'table',
-    'tbody',
-    'td',
-    'template',
-    'tfoot',
-    'th',
-    'tr',
-    'var',
-    'em',
-    'i',
-    'li',
-    'ol',
-    'strong',
-    'ul',
-    'div',
-]
-
-
-RENDERER_WHITELISTED_ATTRIBUTES = {
-    '*': ['class', 'style'],
-    'a': ['href', 'title', 'rel'],
-    'abbr': ['title'],
-    'acronym': ['title'],
-    'base': ['href']
-}
-
-RENDERER_WHITELISTED_PROTOCOLS = [
-    'https'
-]
-
-RENDERER_EXTENSIONS = [
-    'callout',
-    'lock'
-]

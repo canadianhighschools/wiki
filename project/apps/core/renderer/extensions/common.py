@@ -8,7 +8,7 @@ def get_tag_data(tag: str, default_attributes: dict = {}) -> dict:
         {'tag_type': 'callout', 'attributes': {'template': 'warning', 'hidden': 'false'}}
     """
 
-    match = re.match(r"([a-zA-Z]+){(.+)}?", tag)
+    match = re.match(r"([a-zA-Z]+){(.+)}?", tag.strip())
     if (not match or len(match.groups()) != 2): return False
 
     tag_type = match.group(1)

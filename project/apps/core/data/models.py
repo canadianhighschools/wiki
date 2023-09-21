@@ -31,7 +31,7 @@ class Category(models.Model, AbstractDatedModel):
     title = models.CharField(max_length=255, verbose_name="Title")
     description = models.CharField(max_length=32767, default="", blank=True, verbose_name="Description")
     slug = models.CharField(max_length=255, null=True, verbose_name="Slug", validators=[validate_slug])
-    parent = models.OneToOneField('self', on_delete=models.PROTECT, blank=True, null=True, verbose_name="Parent")
+    parent = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True, verbose_name="Parent", related_name='child_categories')
 
     class Meta:
         db_table = 'Category'
@@ -47,7 +47,7 @@ class Page(models.Model, AbstractDatedModel):
     title = models.CharField("title", max_length=255)
     description = models.CharField(max_length=32767, default="", blank=True, verbose_name="Description")
     slug = models.CharField(max_length=255, verbose_name="Slug", validators=[validate_slug])
-    parent = models.OneToOneField('Category', on_delete=models.PROTECT, verbose_name="Category")
+    parent = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name="Category", related_name="child_pages")
 
     class Meta:
         db_table = 'Page'

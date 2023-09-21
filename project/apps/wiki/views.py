@@ -4,7 +4,7 @@ from django.template import loader
 
 from apps.core.data.fetch import page_from_path, text_from_page, categories_from_page, path_from_string
 
-from apps.core.data.renderer.run import render_to_html, markdown_builder
+from apps.core.renderer.run import render_to_html, markdown_builder
 
 import re
 
@@ -23,15 +23,14 @@ def content(request: HttpRequest):
     text = text_from_page(page)
 
     if (text):
-        rendered_content = render_to_html(md, text)
+        rendered_page_text = render_to_html(md, text)
 
         context = {
             "page_title": page.title, 
-            "rendered_content": rendered_content, 
+            "sections": rendered_page_text.sections,
+            "content": rendered_page_text.content, 
             "base_dir": "wiki/",
-            "page_path": '/'.join(path)
-            
-            }
+        }
         template = loader.get_template("wiki/content.html")
 
         return HttpResponse(template.render(context, request))

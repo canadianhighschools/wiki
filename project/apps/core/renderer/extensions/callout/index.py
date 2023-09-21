@@ -43,7 +43,6 @@ def execute(
     default_attributes: dict = {'template': 'warning', 'hidden': False}
 ) -> None:
 
-    print ('trigger', name)
     min_markers = 3
     marker_char = marker[0]
     marker_len = len(marker)
@@ -83,6 +82,7 @@ def execute(
 
         tag_data = get_tag_data(tag, default_attributes)
         if (not tag_data): return False
+        if (not 'tag_type' in tag_data or tag_data['tag_type'] != name): return False
         attributes = tag_data['attributes']
         
         if (attributes == {}): return False

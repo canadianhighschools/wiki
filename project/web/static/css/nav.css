@@ -1,0 +1,94 @@
+.nav {
+    border-bottom: 1px solid var(--code-bg-color);
+    grid-template-columns: 1fr 150px 60% 1fr;
+    display: grid;
+    /* background-color: rgb(248, 247, 245); */
+}
+
+.nav a {
+    text-decoration: none; 
+}
+
+.nav a:visited {
+    text-decoration: none; 
+}
+
+.nav .selected {
+    text-decoration: underline;
+}
+
+.nav__logo {
+    font-weight: 900;
+    font-size: 1.4em;
+    grid-column: 2;
+}
+
+.nav__logo a {
+    color: var(--accent-color)
+}
+
+.nav__logo_thin {
+    font-weight: 300;
+    color: var(--black-color)
+}
+
+.nav__item {
+    padding: 1.5rem 1rem;
+    display: inline-block;
+}
+
+.nav__categories {
+    margin: 0;
+    text-align: left;
+    overflow: hidden;
+    list-style: none;
+    grid-template-columns: 1fr 180px 60% 1fr;
+}
+
+.nav__socials {
+    margin: 0;
+    text-align: right;
+    overflow: hidden;
+    list-style: none;
+    margin-right: 50px;
+}
+
+.nav__categories .nav__link:hover {
+    cursor: pointer;
+}
+
+.nav__socials .socials__icon {
+    fill: var(--black-color);
+    transition: fill 0.05s ease;
+}
+
+.nav__socials .nav__link {
+    cursor: default;
+}
+
+
+.socials__icon.github:hover {
+    fill: rgb(111, 111, 111);
+    cursor: pointer;
+}
+
+
+.socials__icon.discord:hover {
+    fill: rgb(30, 124, 248);
+    cursor: pointer;
+}
+
+
+
+/* 
+@media screen and (max-width: 750px) {
+    .nav {
+        grid-template-columns: 70px auto;
+        text-align: right;
+        padding: 0.5rem 1rem;
+    }
+
+    .nav__social {
+        display: none;
+    }
+} */

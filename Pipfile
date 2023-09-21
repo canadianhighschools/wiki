@@ -7,11 +7,11 @@ name = "pypi"
 django = "*"
 markdown-it-py = "*"
 mdit-py-plugins = "*"
-bleach = "*"
 django-rest-framework = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
 djangorestframework = "*"
+bleach = {version = "*", extras = ["css"]}
 
 [dev-packages]
 

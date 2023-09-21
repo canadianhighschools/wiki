@@ -38,6 +38,7 @@ def render(
 
 def execute(
     md: MarkdownIt,
+    name: str = 'lock',
     marker: str = ":",
     default_attributes: dict = {}
 ) -> None:
@@ -81,6 +82,7 @@ def execute(
 
         tag_data = get_tag_data(tag, default_attributes)
         if (not tag_data): return False
+        if (not 'tag_type' in tag_data or tag_data['tag_type'] != name): return False
         attributes = tag_data['attributes']
         
         if (attributes == {}): return False
@@ -138,24 +140,24 @@ def execute(
 
         old_parent = state.parentType
         old_line_max = state.lineMax
-        state.parentType = "lock"
+        state.parentType = name
 
         # this will prevent lazy continuations from ever going past our end marker
         state.lineMax = nextLine
 
 
         # main
-        token = state.push(f"lock_open", "div", 1)
+        token = state.push(f"{name}_open", "div", 1)
         token.markup = marker
         token.block = True
 
-        s = "lock"
+        s = name
         for k, v in attributes.items():
-            s += f" lock-{k}"
+            s += f" {name}-{k}"
 
-            targets = v.split(',')
+            targets = v.replace(' ', '').split(',')
             for t in targets:
-                s += f" lock-{k}-{t}"
+                s += f" {name}-{k}-{t}"
         
         token.attrPush(("class", s))
 
@@ -163,7 +165,7 @@ def execute(
         state.md.block.tokenize(state, startLine+1, nextLine)
 
         # end
-        token = state.push(f"lock_close", "div", -1)
+        token = state.push(f"{name}_close", "div", -1)
         token.markup = state.src[start:pos]
         token.block = True
         state.parentType = old_parent
@@ -175,8 +177,8 @@ def execute(
 
     md.block.ruler.before(
         "fence",
-        "lock",
+        name,
         lock_func
     )
-    md.add_render_rule(f"lock_open", render)
-    md.add_render_rule(f"lock_close", render)
+    md.add_render_rule(f"{name}_open", render)
+    md.add_render_rule(f"{name}_close", render)

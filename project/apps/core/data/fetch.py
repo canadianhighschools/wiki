@@ -1,4 +1,3 @@
-import re
 from .models import Category, Page, Revision, TextContent
 
 from typing import Optional, List
@@ -90,6 +89,7 @@ def content_from_revision(revision: Revision) -> Optional[TextContent]:
     
 
 def text_from_content(content: TextContent) -> Optional[str]:
+    """ May take upto X seconds depending on location of content """
     if (content.flags == 0): 
         return content.text
     
@@ -105,6 +105,8 @@ def text_from_page(page) -> Optional[str]:
 
 
 def text_from_path(path) -> Optional[str]:
+    """ ex. text_from_path(['hello-world', 'door']) outputs TextContent.text """
+
     # the ultimate stack
     page = page_from_path(path)
     if (not page): return 
@@ -121,5 +123,44 @@ def text_from_path(path) -> Optional[str]:
 
 
 def path_from_string(string: str, prefixes=1) -> str:
-    # first letter is a root / generally
+    """ ex. path_from_string("/wiki/hello-world/door", 1) outputs ['hello-world', 'door'] """
     return string[1:].split('/')[prefixes:]
+
+
+class CategoryWrapper:
+    def __init__(self, node):
+        self.node = node
+        self.wrappers = []
+        self.pages = []
+
+def create_heirarchy() -> List[CategoryWrapper]:
+    """ 
+    Expensive operation - handle with care
+
+    heirarchy: List[CategoryWrapper]
+
+    CategoryWrapper
+    -> 
+    node = Category
+    [CategoryWrapper, CategoryWrapper]
+    [Page1, Page2, Page3, Page4]
+    """
+
+    def to_wrapper(pc: Category):
+        w = CategoryWrapper(pc)
+
+        # set pages
+        w.pages = list(pc.child_pages.all())
+
+        # set categories
+        child_categories = list(pc.child_categories.all())
+        w.wrappers = [to_wrapper(c) for c in child_categories]
+
+        return w
+
+    primary_categories = list(Category.objects.filter(parent=None))
+    heirarchy = [to_wrapper(pc) for pc in primary_categories]
+
+    
+    return heirarchy
+        

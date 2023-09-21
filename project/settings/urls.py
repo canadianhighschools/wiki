@@ -6,8 +6,9 @@ import settings.base as settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('edit/', admin.site.urls),
     path("wiki/", include("apps.wiki.urls")),
+    # path("edit/", include("apps.edit.urls")),
     path("api/", include("apps.api.urls")),
 ]
 
