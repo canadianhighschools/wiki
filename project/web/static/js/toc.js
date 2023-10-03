@@ -34,7 +34,7 @@ function create_link_indents() {
                 const anchor = get('a', k)
                 if (anchor) {
                     anchor.innerHTML = ' ' + anchor.textContent
-                    k.style.marginLeft = 10*indent + 'px';
+                    k.style.marginLeft = 20*indent + 'px';
 
                     // if next element has less indent
                     if (i !== (items.length-1)) {
@@ -45,6 +45,7 @@ function create_link_indents() {
                         if (i2 && i2 > indent) {
                             anchor.textContent = '▾' + anchor.textContent
                             anchor.style.fontWeight = 'bold';
+                            k.style.marginLeft = 15*indent + 'px';
                         }
                     }
                 }

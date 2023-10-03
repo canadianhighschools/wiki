@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.template import loader
 
-from apps.core.data.fetch import page_from_path, text_from_page, categories_from_page, path_from_string
+from .fetch import page_from_path, text_from_page, path_from_string
 
-from apps.core.renderer.run import render_to_html, markdown_builder
+from .renderer.run import render_to_html, markdown_builder
 
 import re
 

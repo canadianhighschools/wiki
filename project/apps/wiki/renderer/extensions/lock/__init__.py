@@ -1,0 +1,1 @@
+from .index import LockExtension as wrapper

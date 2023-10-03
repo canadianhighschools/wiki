@@ -14,7 +14,7 @@ services:
       context: ./project
       dockerfile: Dockerfile.prod
     container_name: web_deploy_prod
-    command: gunicorn settings.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/project/web/staticfiles
       - media_volume:/home/project/web/mediafiles

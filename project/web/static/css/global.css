@@ -35,11 +35,11 @@ a, a:hover {
     color: var(--primary-color);
 }
 
-/* hr {
-    padding: 1rem 0;
+hr {
+    margin-bottom: 2rem;
     border: 0;
-    border-bottom: 1px solid var(--bg-color);
-} */
+    border-bottom: 1px solid var(--primary-color);
+}
 
 
 

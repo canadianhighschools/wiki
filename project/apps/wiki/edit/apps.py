@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DataConfig(AppConfig):
+class EditConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.wiki'
+    name = 'apps.wiki.edit'

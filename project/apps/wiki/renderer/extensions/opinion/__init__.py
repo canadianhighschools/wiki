@@ -1,0 +1,1 @@
+from .index import OpinionExtension as wrapper

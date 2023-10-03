@@ -12,6 +12,8 @@ psycopg2-binary = "*"
 gunicorn = "*"
 djangorestframework = "*"
 bleach = {version = "*", extras = ["css"]}
+django-taggit = "*"
+django-storages = { version = "*", extras = ["s3"] }
 
 [dev-packages]
 
