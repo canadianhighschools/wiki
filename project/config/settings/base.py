@@ -135,20 +135,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # archive
-# if (DEBUG):
-#     STORAGES = {
-#         "default": {
-#             "BACKEND": 'django.core.files.storage.FileSystemStorage',
-#             "OPTIONS": {
-#                 "location": f"{BASE_DIR}/external",
-#                 "base_url": f"{BASE_DIR}/external",
-#             },
-#         },
-#         "staticfiles": {
-#             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-#         },
-#     }
-# else:
 if (DEBUG):
     STORAGES = {
         "default": {
@@ -162,6 +148,8 @@ if (DEBUG):
         },
     }
 else:
+    AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME', '')
+
     STORAGES = {
         "default": {
             "BACKEND": 'django.core.files.storage.FileSystemStorage',
@@ -169,7 +157,15 @@ else:
         "archive": {
             "BACKEND": 'storages.backends.s3boto3.S3Boto3Storage',
             'OPTIONS': {
-
+                'access_key': os.getenv('AWS_ACCESS_KEY', ''),
+                'secret_key': os.getenv('AWS_SECRET_KEY', ''),
+                'bucket_name': AWS_BUCKET_NAME,
+                'object_parameters': {
+                    'CacheControl': 'max-age=86400',
+                },
+                'file_overwrite': os.getenv('AWS_FILE_OVERWRITE', 'true').lower() != 'false',
+                'region_name': os.getenv('AWS_REGION_NAME', 'us-east-2'),
+                'custom_domain': AWS_BUCKET_NAME + '.s3.amazonaws.com',
             }
         },
         "staticfiles": {
