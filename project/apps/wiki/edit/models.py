@@ -2,8 +2,8 @@ from django.db import models
 
 from config.settings.base import AUTH_USER_MODEL
 
-from apps.core import AbstractDatedModel, StandardUserPermissionMixin, TextContent
-from .. import Revision
+from apps.core.models import AbstractDatedModel, StandardUserPermissionMixin, TextContent
+from ..models import Revision
 
 
 # A modification to a section of a revision

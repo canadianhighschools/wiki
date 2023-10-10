@@ -1,14 +1,36 @@
 from django.db import models
 
-from apps.core import AbstractDatedModel, ExternalContent, StandardUserPermissionMixin
+from apps.core.models import AbstractDatedModel, ExternalContent, StandardUserPermissionMixin
 
 from taggit.managers import TaggableManager
 
+from .validators import validate_pdf_file_extension
+from .deconstructible import rename_file_to_uuid
+
+
+class ImageContent(ExternalContent):
+    file = models.ImageField('file', upload_to=rename_file_to_uuid)
+    
+    class Meta:
+        db_table = 'ImageContent'
+        verbose_name = 'Image Content'
+        verbose_name_plural = 'Image Contents'
+
+
+
+class PDFContent(ExternalContent):
+    file = models.FileField('file', upload_to=rename_file_to_uuid, validators=[validate_pdf_file_extension], storage='archive')
+    
+    class Meta:
+        db_table = 'PDFContent'
+        verbose_name = 'PDF Content'
+        verbose_name_plural = 'PDF Contents'
+
 class ArchiveItem(AbstractDatedModel, StandardUserPermissionMixin):
     title = models.CharField(max_length=255, verbose_name="Title")
-    snapshot = models.OneToOneField(ExternalContent, on_delete=models.PROTECT, verbose_name="Snapshot")
+    img = models.OneToOneField(ImageContent, on_delete=models.CASCADE, verbose_name="Snapshot", related_name='snapshot', null=True, auto_created=True)
     description = models.CharField(max_length=32767, default="", blank=True, verbose_name="Description")
-    content = models.OneToOneField(ExternalContent, on_delete=models.PROTECT, verbose_name="External Content")
+    pdf = models.OneToOneField(PDFContent, on_delete=models.CASCADE, verbose_name="PDF", related_name='PDF')
     tags = TaggableManager()
 
     class Meta:

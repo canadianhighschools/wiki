@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'taggit', # tag manager / best to outsource managing stuff :P
+    'taggit', # tag manager
+    'storages', # storage manager (to abstract between local and S3)
     'apps.core',
     'apps.archive',
 ]
@@ -43,7 +44,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'settings.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES_ROOT = BASE_DIR / 'templates'
 
@@ -63,7 +64,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'settings.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
@@ -72,7 +73,7 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.getenv('DB_NAME', 'db.sqlite3'),
+        'NAME': os.getenv('DB_NAME', f'{BASE_DIR.absolute()}/db.sqlite3'),
         'USER': os.getenv('DB_USER', 'user'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'password'),
         'HOST': os.getenv('DB_HOST', '127.0.0.1'),
@@ -84,7 +85,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = "account.User"
+AUTH_USER_MODEL = "core.User"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -129,3 +130,49 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+# archive
+# if (DEBUG):
+#     STORAGES = {
+#         "default": {
+#             "BACKEND": 'django.core.files.storage.FileSystemStorage',
+#             "OPTIONS": {
+#                 "location": f"{BASE_DIR}/external",
+#                 "base_url": f"{BASE_DIR}/external",
+#             },
+#         },
+#         "staticfiles": {
+#             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+#         },
+#     }
+# else:
+if (DEBUG):
+    STORAGES = {
+        "default": {
+            "BACKEND": 'django.core.files.storage.FileSystemStorage',
+        },
+        "archive": {
+            "BACKEND": 'django.core.files.storage.FileSystemStorage',
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": 'django.core.files.storage.FileSystemStorage',
+        },
+        "archive": {
+            "BACKEND": 'storages.backends.s3boto3.S3Boto3Storage',
+            'OPTIONS': {
+
+            }
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }

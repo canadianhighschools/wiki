@@ -1,0 +1,8 @@
+<p>hello world</p>
+{% for item in archive_items %}
+    <a href="/archive/{{ item.id }}">{{ item.title }}</a>
+{% endfor %}
+<br/>
+<br/>
+
+<a href="/archive/upload">upload new item</a>

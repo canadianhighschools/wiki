@@ -1,10 +1,11 @@
-from django.urls import path, re_path
+from django.urls import path
 
-from . import views
+from .views import IndexView, ItemView, ArchiveItemFormView
 
 urlpatterns = [
-    path('', views.index, name="index"),
-    path('/<int:item_id>', views.item, name="content"),
+    path('', IndexView.as_view(), name="index"),
+    path('upload', ArchiveItemFormView.as_view(), name="archive-item-add"),
+    path('<int:item_id>', ItemView.as_view(), name="item"),
 ]
 
 # cahighschools.org/archive?page=5
