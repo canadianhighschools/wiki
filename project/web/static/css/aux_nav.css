@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Sen:wght@400;600&family=Montserrat&display=swap');
+
+.aux_nav {
+    width: 100%;
+    background-color: #e1d6c4;
+    display: flex;
+    font-family: 'Sen', Roboto, Ubuntu, sans-serif;
+    justify-content: center;
+}
+
+.aux_nav__categories {
+    list-style: none;
+    display: flex;
+    margin: 10px 0;
+    
+}
+
+.aux_nav__item {
+    border-radius: 5px;
+    transition: 0.075s background ease;
+}
+
+.aux_nav__item a {
+    font-size: 17px;
+    padding: 0px 20px;
+    text-decoration: none;
+    color: #1e1e1e;
+}
+
+.aux_nav__item:hover {
+    background-color: #c7bcaa;
+}
+
+.aux_nav__item.selected a {
+    text-decoration: underline;
+}

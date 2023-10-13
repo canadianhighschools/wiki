@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.models import AbstractDatedModel
+from apps.core.models import AbstractDatedModel, TextContent
 
 
 
@@ -68,7 +68,7 @@ class Revision(AbstractDatedModel):
     rollback = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='rollbacks')
     
     # one content per revision, unique
-    content = models.OneToOneField('TextContent', on_delete=models.PROTECT, verbose_name="Text Content", null=True, blank=True)
+    content = models.OneToOneField(TextContent, on_delete=models.PROTECT, verbose_name="Text Content", null=True, blank=True)
     page = models.ForeignKey('Page', on_delete=models.PROTECT, verbose_name="Page", related_name="revisions")
 
     def __str__(self):

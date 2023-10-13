@@ -2,7 +2,9 @@ from django.contrib import admin
 from django.apps import apps
 
 from django.contrib import admin
-from .models import Category, Page, Revision, TextContent
+from .models import Category, Page, Revision
+
+from apps.core.models import TextContent
 
 
 def fetch_parent_as_path(parent):
@@ -41,4 +43,3 @@ class PageAdmin(admin.ModelAdmin):
     fields = ["title", "slug", "description", "parent"]
 
 admin.site.register(Revision)
-admin.site.register(TextContent)

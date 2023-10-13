@@ -7,7 +7,7 @@ import bleach
 from bleach.css_sanitizer import CSSSanitizer, ALLOWED_CSS_PROPERTIES, ALLOWED_SVG_PROPERTIES
 
 try:
-    from config.renderer import WHITELISTED_TAGS, WHITELISTED_ATTRIBUTES, WHITELISTED_PROTOCOLS, EXTENSIONS, WHITELISTED_CSS_PROPERTIES, WHITELISTED_SVG_PROPERTIES
+    from config.settings.renderer import WHITELISTED_TAGS, WHITELISTED_ATTRIBUTES, WHITELISTED_PROTOCOLS, EXTENSIONS, WHITELISTED_CSS_PROPERTIES, WHITELISTED_SVG_PROPERTIES
 except ImportError:
     WHITELISTED_TAGS = bleach.ALLOWED_TAGS
     WHITELISTED_ATTRIBUTES = bleach.ALLOWED_ATTRIBUTES
@@ -112,7 +112,7 @@ def render_to_html(md: MarkdownIt, content: str) -> RenderedPageText:
     for t in tokens:
         if (t.type == 'section_open' and t.info != 'hidden'):
             sections.append(
-                {'id': t.attrGet('id'), 'title': t.content, 'level': t.level})
+                {'id': t.attrGet('id'), 'title': t.content, 'level': t.level-1})
 
     html_text = md.renderer.render(tokens, md.options, {})
 

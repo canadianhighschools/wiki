@@ -1,0 +1,11 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/aux_nav.css' %}" media="screen">
+</head>
+
+<nav id="aux_navbar" class="aux_nav">
+    <ul class="aux_nav__categories">
+        {% block items %}
+        {% endblock %}
+    </ul>
+</nav>

@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #232328;
+}
+
+.layout {
+    min-height: 100vh;
+}
+
+.layout__wrapper {
+    display: flex;
+    min-height: 90vh;
+    background-color: #303037;
+}
+
+.content__filters {
+    flex: 1;
+    min-width: 200px;
+    padding: 20px;
+    background-color: gray;
+}
+
+.content__doc {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    min-width: 500px;
+    padding: 20px;
+    background-color: rgb(57, 57, 57);
+}
+
+.doc__sort {
+    flex: 1;
+    background-color: rgb(137, 137, 137);
+}
+
+.doc__sort ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0 5%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.doc__sort li {
+    float: left;
+}
+
+.doc__sort li * {
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.doc__sort .sort__search {
+    padding: 0;
+}
+
+
+.doc__move {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    align-self: center;
+}
+
+.doc__move * {
+    margin: auto;
+    background-color: #333;
+    border-radius: 20px;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+
+.doc__move .move__nav {
+    width: 60px;
+    border-radius: 20px;
+}
+
+.doc__move span {
+    width: 40px;
+    height: 15px;
+    margin: 0 5px;
+}
+
+.doc__articles {
+    flex: 8;
+    background-color: rgb(33, 33, 33);
+}
+
+/* .container {
+    display: flex;
+    justify-content: space-between;
+} */

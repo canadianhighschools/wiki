@@ -37,17 +37,17 @@ function create_link_indents() {
                     k.style.marginLeft = 20*indent + 'px';
 
                     // if next element has less indent
-                    if (i !== (items.length-1)) {
-                        // alert (i + ' ' + indent + ' ' + (i === items.length-1))
-                        const z = items[i+1]
-                        const i2 = get_indent_of_link(z)
+                    // if (i !== (items.length-1)) {
+                    //     // alert (i + ' ' + indent + ' ' + (i === items.length-1))
+                    //     const z = items[i+1]
+                    //     const i2 = get_indent_of_link(z)
 
-                        if (i2 && i2 > indent) {
-                            anchor.textContent = '▾' + anchor.textContent
-                            anchor.style.fontWeight = 'bold';
-                            k.style.marginLeft = 15*indent + 'px';
-                        }
-                    }
+                    //     if (i2 && i2 > indent) {
+                    //         anchor.textContent = '▾' + anchor.textContent
+                    //         anchor.style.fontWeight = 'bold';
+                    //         k.style.marginLeft = 15*indent + 'px';
+                    //     }
+                    // }
                 }
             }
         }

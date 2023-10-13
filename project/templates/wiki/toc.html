@@ -1,18 +1,18 @@
 <head>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/toc.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/wiki/toc.css' %}" media="screen">
 </head>
 
 <aside id="doc__toc">
     <ul>
         <li class="toc__item selected" data-indent="0"><a class="toc__link" href="#"><b>(top)</b></a></li>
-        <!-- {% for x in sections %}
+        {% for x in sections %}
             <li class="toc__item" data-indent="{{ x.level }}"><a class="toc__link" href="#{{ x.id }}"">{{ x.title }}</a></li>
-        {% endfor %} -->
+        {% endfor %}
 
-        <!-- <hr> -->
+        <hr>
 
-
+<!-- 
         <li class="toc__item" data-indent="0"><a class="toc__link" href="#"><b>Introduction</b></a></li>
 
         <li class="toc__item" data-indent="0"><a class="toc__link" href="#"><b>Welcome</b></a></li>
@@ -30,7 +30,9 @@
 
         <li class="toc__item" data-indent="1"><a class="toc__link" href="#"><b>Stress & Anxiety</b></a></li>
 
-        <li class="toc__item" data-indent="1"><a class="toc__link" href="#"><b>Neurodivergency</b></a></li>
+        <li class="toc__item" data-indent="1"><a class="toc__link" href="#"><b>Neurodivergency</b></a></li> -->
     
     </ul>
 </aside>
+
+<script src="{% static 'js/toc.js' %}"></script>

@@ -1,11 +1,13 @@
 from django.urls import path
 
-from .views import IndexView, ItemView, ArchiveItemFormView
+from .views import IndexView, ItemView, ArchiveDraftFormView, SuccessView, DraftView
 
 urlpatterns = [
     path('', IndexView.as_view(), name="index"),
-    path('upload', ArchiveItemFormView.as_view(), name="archive-item-add"),
-    path('<int:item_id>', ItemView.as_view(), name="item"),
+    path('upload', ArchiveDraftFormView.as_view(), name="archive-item-add"),
+    # path('upload/success/', SuccessView.as_view(), name="archive-item-add-success"),
+    path('draft/<int:pk>', DraftView.as_view(), name="archive-draft"),
+    path('item/<int:pk>', ItemView.as_view(), name="archive-item"),
 ]
 
 # cahighschools.org/archive?page=5

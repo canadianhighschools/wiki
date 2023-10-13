@@ -31,6 +31,7 @@ def content(request: HttpRequest):
             "content": rendered_page_text.content, 
             "base_dir": "wiki/",
         }
+        print ('CONTNT', rendered_page_text.content)
         template = loader.get_template("wiki/content.html")
 
         return HttpResponse(template.render(context, request))

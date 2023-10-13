@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import PDFContent
 
-
 @receiver(pre_delete, sender=PDFContent)
 def delete_pdf_file(sender, instance, *args, **kwargs):
     """ Deletes external files on `post_delete` """

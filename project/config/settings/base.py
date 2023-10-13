@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'storages', # storage manager (to abstract between local and S3)
     'apps.core',
     'apps.archive',
+    'apps.wiki'
 ]
 
 REST_FRAMEWORK = {

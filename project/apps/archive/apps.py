@@ -4,3 +4,6 @@ from django.apps import AppConfig
 class ArchiveConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'apps.archive'
+
+    def ready(self):
+        from ..archive import signals

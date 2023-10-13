@@ -1,0 +1,79 @@
+/* css variables */
+:root {
+    --primary-color: #432E30;
+    --primary-color-light: #8E7474;
+    --accent-color: #FE6A6B;
+    --accent-color-light: #FFE4E4;
+    --accent-color-dark: #B94B4C;
+    --white-color: #FAFBFC;
+    --light-gray-color: #C6CBD1;
+    --medium-gray-color: #959DA5;
+    --dark-gray-color: #444D56;
+    --black-color: #1e1f20;
+    --bg-color: #F8F8FA;
+    --code-bg-color: #F0E8E8;
+    --link-color: rgb(76, 111, 216);
+}
+
+/* general styling */
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: #bababb;
+    scroll-behavior: smooth;
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+    color: #181818;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 22px;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+h6 {
+    font-size: 14px;
+}
+
+
+p {
+    color: #000000;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+hr {
+    margin-bottom: 2rem;
+    border: 0;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+
+
+
+.wrapper {
+    margin: 0 10%;
+    min-height: 80vh;
+}

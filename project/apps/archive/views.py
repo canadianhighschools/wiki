@@ -1,34 +1,45 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
-from django.utils import timezone
+from django.shortcuts import render
 from django.views import generic
 from django.views.generic.edit import CreateView
-
-from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import ArchiveItem
-from .forms import ArchiveItemForm
+from .models import ArchiveItem, ArchiveDraft
+from .forms import ArchiveDraftForm
 
 prefix = 'archive/'
 
 
 class IndexView(generic.TemplateView):
-    template_name = prefix + 'index.html'
+    template_name = prefix + 'base.html'
 
     def get(self, request, *args, **kwargs): 
-        return render(request, self.template_name, {'archive_items': ArchiveItem.objects.all()}) 
-
+        return render(request, self.template_name, {'archive_drafts': ArchiveDraft.objects.all(), 'archive_items': ArchiveItem.objects.all()}) 
     
+
+class DraftView(generic.DetailView):
+    model = ArchiveDraft
+    template_name = prefix + 'detail.html'
+    pk_url_kwarg = 'pk'
 
 class ItemView(generic.DetailView):
     model = ArchiveItem
     template_name = prefix + 'detail.html'
-    pk_url_kwarg = 'item_id'
+    pk_url_kwarg = 'pk'
 
 
-class ArchiveItemFormView(LoginRequiredMixin, CreateView):
+class ArchiveDraftFormView(LoginRequiredMixin, CreateView):
     template_name = prefix + 'upload.html'
-    form_class = ArchiveItemForm
+    form_class = ArchiveDraftForm
     success_url = 'success/'
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(ArchiveDraftForm, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+class SuccessView(generic.TemplateView):
+    template_name = prefix + 'success.html'
+
+    def get(self, request, *args, **kwargs): 
+        return render(request, self.template_name, {'archive_item': ArchiveItem.objects.all()}) 

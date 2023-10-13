@@ -1,10 +1,7 @@
-from django.core.signals import request_finished
-from django.dispatch import receiver
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-import uuid
-from django.utils.deconstruct import deconstructible
+from ..deconstructible import rename_file_to_uuid
 
 
 
