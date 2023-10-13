@@ -27,6 +27,7 @@
     padding: 0px 20px;
     text-decoration: none;
     color: #D6D6D6;
+    transition: 0.075s color ease-in-out;
 }
 
 
@@ -48,6 +49,7 @@
 
 .nav__socials svg {
     fill: #D6D6D6;
+    transition: 0.075s fill ease-in-out;
 }
 
 .nav__socials svg:hover {
@@ -60,8 +62,14 @@
     border: 1px solid white;
     border-radius: 5px;
     margin-right: 20px;
+    transition: 0.075s background ease-in-out;
 }
 
+
+.nav__sign_up:hover {
+    cursor: pointer;
+    background-color: #34393e;
+}
 
 .nav__sign_up:hover a {
     text-decoration: none;

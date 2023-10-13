@@ -6,8 +6,6 @@ from .fetch import page_from_path, text_from_page, path_from_string
 
 from .renderer.run import render_to_html, markdown_builder
 
-import re
-
 prefix = '/wiki'
 
 
@@ -28,10 +26,8 @@ def content(request: HttpRequest):
         context = {
             "page_title": page.title, 
             "sections": rendered_page_text.sections,
-            "content": rendered_page_text.content, 
-            "base_dir": "wiki/",
+            "content": rendered_page_text.content,
         }
-        print ('CONTNT', rendered_page_text.content)
         template = loader.get_template("wiki/content.html")
 
         return HttpResponse(template.render(context, request))
