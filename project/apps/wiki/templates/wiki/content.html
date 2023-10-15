@@ -1,11 +1,16 @@
 {% extends 'wiki/base.html' %}
 
 {% block contents %}
-{% include "wiki/toc.html" with sections=sections page_title=page_title %}
-
 <article class="doc__page">
+    <div class="doc__inner_toc">
+        {% include "wiki/inner_toc.html" with sections=sections page_title=page_title %}
+    </div>
+
+    <hr>
+
     <div class="doc__content">
         <h1 class="doc__title">{{ page_title }}</h1>
+        <a href="{{ edit_page_url }}">edit page</a>
         <hr/>
         {{ content|safe }}
     </div>

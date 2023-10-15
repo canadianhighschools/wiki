@@ -11,9 +11,13 @@
 </head>
 
 <body>
-    {% include 'nav.html' %}
-    {% include 'archive/aux_nav.html' %}
+    {% load navigation %}
+    {% primary_navbar selected_key="wiki" %}
+
+    {% load wiki_navigation %}
+    {% wiki_aux_navbar selected_key="browse" %}
     
+
     <div class="wrapper">
         {% block contents %}
         {% endblock %}

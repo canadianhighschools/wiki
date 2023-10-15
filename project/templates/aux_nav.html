@@ -5,7 +5,10 @@
 
 <nav id="aux_navbar" class="aux_nav">
     <ul class="aux_nav__categories">
-        {% block items %}
-        {% endblock %}
+        {% for key, value in navbar.elements.items %}
+        <li {% if key == selected_key %}class="aux_nav__item selected"{% else %}class="aux_nav__item"{% endif %}>
+            <a href="{{ value }}">{{ key }}</a>
+        </li>
+        {% endfor %}
     </ul>
 </nav>

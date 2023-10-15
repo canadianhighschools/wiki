@@ -1,0 +1,15 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/wiki/inner_toc.css' %}" media="screen">
+</head>
+
+<aside class="inner_toc">
+    <ul>
+        <li class="inner_toc__item selected" data-indent="0"><a href="#"><b>(top)</b></a></li>
+        {% for x in sections %}
+            <li class="inner_toc__item" data-indent="{{ x.level }}"><a href="#{{ x.id }}"">{{ x.title }}</a></li>
+        {% endfor %}
+    </ul>
+</aside>
+
+<script src="{% static 'js/toc.js' %}"></script>

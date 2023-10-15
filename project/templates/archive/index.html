@@ -1,56 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+<aside class="content__filters">
+    <ul>
+        <li>Subject</li>
+        <li>Type</li>
+        <li>Quality</li>
+    </ul>
+</aside>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/archive/common.css' %}" media="screen">
-    <title>CHS.org</title>
-</head>
+<main class="content__doc">
+    <nav class="doc__sort">
+        <ul>
+            <li>
+                <input class="sort__bar sort__search" type="text" maxlength="50" placeholder="search..."/>
+            </li>
 
-<body>
-    {% include 'nav.html' %}
-    <div class="top-oval"></div>
+            <li>
+                <input class="sort__bar sort__order" type="text" maxlength="50" placeholder="order"/>
+            </li>
 
+            <li>
+                <input class="sort__bar sort__count" type="text" placeholder="count"/>
+            </li>
 
-    <div class="container">
-        <aside class="toc">
-            <ul>
-                <li>Subject</li>
-                <li>Type</li>
-                <li>Quality</li>
-            </ul>
-        </aside>
-        <main class="main-content">
-            <div class="pagination">
-                <a href="#" class="arrow">&laquo;</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <span>...</span>
-                <a href="#">35</a>
-                <a href="#" class="arrow">&raquo;</a>
-            </div>
-            <div class="content-container">
-                <div class="content-card">
-                    <img src="image_placeholder.jpg" alt="Post Image" class="post-img">
-                    <div class="post-info">
-                        <h2 class="post-title">Biology Notes on the Human Body</h2>
-                        <p class="post-pages">18 Pages</p>
-                        <p class="post-description">bla bla boa bla bla bla blsdi fbao blasd fbla bodsfb</p>
-                        <div class="post-details">
-                            <span class="post-date">Oct 10, 2023</span>
-                            <span class="post-hours-ago">4 hours ago</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Additional .content-card blocks can be added similarly -->
-            </div>
+            <li>
+                <button>V</button>
+            </li>
+        </ul>
+    </nav>
 
-        </main>
+    <div class="doc__move">
+        <a class="move__nav">&laquo;</a>
+        <a>1</a>
+        <a>2</a>
+        <a>3</a>
+        <span></span>
+        <a>38</a>
+        <a class="move__nav">&raquo;</a>
     </div>
 
-</body>
-
-</html>
+    <article class="doc__articles">
+        <ul>
+            <li>Subject</li>
+            <li>Type</li>
+            <li>Quality</li>
+            <li>Subject</li>
+            <li>Type</li>
+            <li>Quality</li>
+        </ul>
+    </article>
+</main>

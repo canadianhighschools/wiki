@@ -21,10 +21,6 @@ def validate_slug(value):
             )
 
 
-
-
-
-
 # A wrapper for a category - supports nesting.
 class Category(AbstractDatedModel):
     title = models.CharField(max_length=255, verbose_name="Title")
@@ -60,9 +56,9 @@ class Page(AbstractDatedModel):
 
 # A page revision / points to the sections
 class Revision(AbstractDatedModel):
-    order = models.IntegerField(verbose_name="Order #", default=0)
-    # could potentially be a rollback and not a content revision
+    order = models.IntegerField(verbose_name="Order #", default=0, auto_created=True)
 
+    # could potentially be a rollback and not a content revision
     # another many to one key because multiple revisions could rollback to one revision
     # but one revision will never rollback to many
     rollback = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='rollbacks')
@@ -80,13 +76,11 @@ class Revision(AbstractDatedModel):
         verbose_name_plural = 'Revisions'
 
         # either rollback or content must not be null
-        # taken from https://stackoverflow.com/questions/53085645/django-one-of-2-fields-must-not-be-null
         constraints = [
             models.CheckConstraint(
                 check=Q(rollback__isnull=False) | Q(content__isnull=False),
                 name='not_both_null'
             )
-            # TODO add constraint to make order unique among models?
         ]
         
 

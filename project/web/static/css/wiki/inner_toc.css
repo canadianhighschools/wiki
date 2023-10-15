@@ -1,4 +1,4 @@
-#doc__toc {
+.inner_toc {
     /* flex-basis: 100%; */
     min-width: 150px;
     max-width: 300px;
@@ -6,7 +6,7 @@
     font-weight: 200;
 }
 
-#doc__toc ul {
+.inner_toc ul {
     list-style: none;
     padding-left: 0;
     line-height: 1.8;
@@ -16,22 +16,22 @@
 
 
 
-.toc__link {
+.inner_toc__item a {
     color: var(--link-color);
     transition: color 0.1s ease-in-out;
     text-decoration: none;
     cursor: pointer;
 }
 
-.toc__link:active {
+.inner_toc__item a:active {
     color: var(--link-color);
 }
 
-.toc__link:hover {
+.inner_toc__item a:hover {
     text-decoration: underline;
 }
 
-.toc__item.selected .toc__link {
+.inner_toc__item.selected a {
     color: var(--black-color);
 }
 
