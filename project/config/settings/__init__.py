@@ -1,2 +1,2 @@
 from .base import *
-from .renderer import *
+from .wiki import *

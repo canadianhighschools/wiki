@@ -21,6 +21,7 @@ class ArchiveDraftForm(forms.ModelForm):
 
         tags = cleaned_data.get('tags')
 
+        # TODO whitelist tags
         print ('taggos', tags)
 
         self.add_error('tag_not_found', 'Tags contain non-whitelisted tag!')

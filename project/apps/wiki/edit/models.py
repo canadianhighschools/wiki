@@ -16,16 +16,16 @@ from ..models import Revision
 # 2020: accepted (temporarily)
 # 2030: accepted (but heavily modified)
 # 3000: suspended (this commit is unable to be approved until unsuspended)
-class Commit(AbstractDatedModel, StandardUserPermissionMixin):
-    section = models.CharField(max_length=255, verbose_name="Edited Section")
-    content = models.OneToOneField(TextContent, on_delete=models.PROTECT)
-    revision = models.ForeignKey(Revision, on_delete=models.DO_NOTHING)
-    status = models.SmallIntegerField(verbose_name="Status", default=0)
+# class Commit(AbstractDatedModel, StandardUserPermissionMixin):
+#     section = models.CharField(max_length=255, verbose_name="Edited Section")
+#     content = models.OneToOneField(TextContent, on_delete=models.PROTECT)
+#     revision = models.ForeignKey(Revision, on_delete=models.DO_NOTHING)
+#     status = models.SmallIntegerField(verbose_name="Status", default=0)
 
-    def __str__(self):
-        return self.section
+#     def __str__(self):
+#         return self.section
 
-    class Meta:
-        db_table = 'Commit'
-        verbose_name = 'Commit'
-        verbose_name_plural = 'Commits'
+#     class Meta:
+#         db_table = 'Commit'
+#         verbose_name = 'Commit'
+#         verbose_name_plural = 'Commits'

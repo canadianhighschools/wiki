@@ -1,16 +1,6 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15
-    container_name: db_deploy_dev
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_DB=project_dev
-      - POSTGRES_USER=username_dev
-      - POSTGRES_PASSWORD=password_dev
-      
   web:
     build: ./project
     container_name: web_deploy_dev
@@ -23,6 +13,3 @@ services:
       - ./env/dev/project.env
     depends_on:
       - db
-
-volumes:
-  postgres_data:

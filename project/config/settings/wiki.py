@@ -1,5 +1,4 @@
-# see https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
-
+# see https://portswigger.net/web-security/cross-site-scripting/cheat-shee
 EXTENSIONS = [
     'lock',
     'callout',
