@@ -1,14 +1,6 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15
-    container_name: db_deploy_staging
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./env/staging/db.env
-
   web:
     build: 
       context: ./project
@@ -22,8 +14,6 @@ services:
       - 8000
     env_file:
       - ./env/staging/project.env
-    depends_on:
-      - db
 
   nginx-proxy:
     container_name: nginx-proxy
@@ -56,7 +46,6 @@ services:
       - nginx-proxy
 
 volumes:
-  postgres_data:
   static_volume:
   media_volume:
   certs:

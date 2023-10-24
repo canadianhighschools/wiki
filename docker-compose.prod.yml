@@ -1,14 +1,6 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15
-    container_name: db_deploy_prod
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./env/prod/db.env
-
   web:
     build: 
       context: ./project
@@ -22,8 +14,6 @@ services:
       - 8000
     env_file:
       - ./env/prod/project.env
-    depends_on:
-      - db
 
   nginx:
     build: ./nginx
@@ -37,6 +27,5 @@ services:
       - web
 
 volumes:
-  postgres_data:
   static_volume:
   media_volume:
